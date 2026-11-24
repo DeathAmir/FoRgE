@@ -1,142 +1,72 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
 const menuOpen = ref(false)
 const email = ref('')
-const subscribed = ref(false)
-
+const submitted = ref(false)
 const closeMenu = () => { menuOpen.value = false }
-const joinWaitlist = () => {
-  if (email.value.trim()) subscribed.value = true
-}
+const submitEmail = () => { if (email.value.trim()) submitted.value = true }
 </script>
 
 <template>
   <div class="site-shell">
-    <div class="topline"><span class="topline-dot"></span> THE NEXT GENERATION OF PLAYER-CREATED GAMES</div>
-    <header class="nav-wrap">
-      <a class="brand" href="#" aria-label="FoRgE home">
-        <svg class="brand-mark" viewBox="0 0 54 54" fill="none" aria-hidden="true">
-          <path d="M8 7H47V18H20V25H43V36H20V48H8V7Z" fill="currentColor"/>
-          <path d="M8 7H20V48H8V7Z" fill="#E3AD83"/>
-          <path d="M34 7H47V18H34V7Z" fill="#8D583B"/>
-        </svg>
-        <span>Fo<span>R</span>GE</span>
-      </a>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="FoRgE home"><img src="/forge-mark.svg" alt="" class="brand-icon" /><span>FoRgE</span></a>
       <button class="menu-toggle" @click="menuOpen = !menuOpen" :aria-expanded="menuOpen" aria-label="Toggle navigation"><i></i><i></i></button>
       <nav :class="{ 'nav-open': menuOpen }">
-        <a href="#discover" @click="closeMenu">Discover</a>
-        <a href="#create" @click="closeMenu">Create</a>
-        <a href="#community" @click="closeMenu">Community</a>
-        <a href="#about" @click="closeMenu">About</a>
-        <a class="nav-cta" href="#get-started" @click="closeMenu">Get early access <span>↗</span></a>
+        <a href="#platform" @click="closeMenu">Platform</a><a href="#workflow" @click="closeMenu">How it works</a><a href="#worlds" @click="closeMenu">Games</a><a href="#about" @click="closeMenu">About</a><a class="nav-cta" href="#access" @click="closeMenu">Get updates <span>↗</span></a>
       </nav>
     </header>
-
     <main>
       <section class="hero">
-        <div class="hero-grid"></div>
         <div class="hero-copy">
-          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR WORLD. YOUR RULES.</div>
-          <h1>MAKE WORLDS.<br><span>PLAY ANYTHING.</span></h1>
-          <p class="hero-lead">A universe built by players, powered by creators. Build your own games, share them with the world, and jump into experiences you’ve never imagined.</p>
-          <div class="hero-actions">
-            <a href="#get-started" class="button button-primary">ENTER THE FORGE <span>↗</span></a>
-            <a href="#create" class="button button-quiet"><span class="play-icon">▶</span> HOW IT WORKS</a>
+          <div class="overline"><span class="status-dot"></span> AN OPEN PLATFORM FOR PLAYER-MADE GAMES</div>
+          <h1>PLAY IT.<br /><span>CHANGE IT.</span><br />MAKE IT YOURS.</h1>
+          <p class="hero-intro">FoRgE is being built around one simple idea: games should be more than something you finish. Find a world, make it your own, or build one from scratch.</p>
+          <div class="hero-actions"><a class="button button-main" href="#platform">TAKE A LOOK <span>↗</span></a><a class="quiet-link" href="#workflow">WHAT IS FoRgE? <span>↓</span></a></div>
+          <div class="hero-note"><span>01</span> A PLATFORM IN THE MAKING <i></i> BUILT FOR PLAYERS AND CREATORS</div>
+        </div>
+        <div class="product-window" aria-label="FoRgE platform interface preview">
+          <div class="window-top"><div class="window-brand"><img src="/forge-mark.svg" alt="" /><b>FoRgE</b><span>/</span><small>DISCOVER</small></div><div class="window-controls"><i></i><i></i><i></i></div></div>
+          <div class="window-body">
+            <aside class="window-sidebar"><span class="side-label">LIBRARY</span><span class="side-item active"><b>◈</b> Discover</span><span class="side-item"><b>▣</b> My games</span><span class="side-item"><b>⌘</b> Workshop</span><div class="sidebar-bottom"><span class="avatar">F</span><span><b>YOUR SPACE</b><small>Creator profile</small></span></div></aside>
+            <div class="window-main">
+              <div class="window-heading"><div><small>YOUR NEXT SESSION STARTS HERE</small><h3>Find your next world.</h3></div><span class="window-filter">ALL GAMES&nbsp;⌄</span></div>
+              <div class="featured-game"><div class="featured-art"><div class="art-moon"></div><div class="art-ridge ridge-one"></div><div class="art-ridge ridge-two"></div><span>FEATURED WORLD / 001</span></div><div class="featured-info"><div><small>EXPLORATION · COMMUNITY</small><b>Somewhere, not nowhere.</b></div><span class="play-button">PLAY&nbsp; ↗</span></div></div>
+              <div class="window-section-title"><b>MADE BY THE COMMUNITY</b><span>VIEW ALL ↗</span></div>
+              <div class="mini-games"><div class="mini-game"><div class="mini-art mini-art-one"><i></i></div><b>Dust District</b><small>WORLD · 12 MIN AGO</small></div><div class="mini-game"><div class="mini-art mini-art-two"><i></i></div><b>Low Orbit</b><small>EXPERIMENT · 1 HOUR AGO</small></div><div class="mini-game"><div class="mini-art mini-art-three"><i></i></div><b>Night Shift</b><small>RACING · YESTERDAY</small></div></div>
+              <div class="window-foot"><span><i></i> PREVIEW CONCEPT</span><span>INTERFACE SUBJECT TO CHANGE</span></div>
+            </div>
           </div>
-          <div class="hero-footnote"><span class="pulse"></span> A NEW WORLD IS WAITING TO BE BUILT</div>
         </div>
-        <div class="hero-art" aria-label="Abstract copper 3D forge emblem">
-          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-          <div class="hero-cross">✳</div>
-          <div class="forge-object">
-            <div class="object-top"></div><div class="object-front"></div><div class="object-side"></div>
-            <div class="object-cut"></div>
-          </div>
-          <div class="art-label art-label-top">FIG. 001 <span>— THE CREATOR ENGINE</span></div>
-          <div class="art-label art-label-bottom"><span class="art-square"></span> BUILT DIFFERENT. BUILT TOGETHER.</div>
-          <div class="art-coordinate">51°30'26.4"N<br>00°07'39.0"W</div>
-        </div>
-        <div class="hero-index">01 <span>/ 04</span></div>
+        <div class="hero-side-label">FIG. 01 — THE FoRgE DESKTOP EXPERIENCE</div>
       </section>
-
-      <section class="ticker" aria-label="Platform features">
-        <div class="ticker-track"><span>CREATE WITHOUT LIMITS</span><b>✳</b><span>PLAY WITHOUT BORDERS</span><b>✳</b><span>BUILT BY THE COMMUNITY</span><b>✳</b><span>CREATE WITHOUT LIMITS</span><b>✳</b><span>PLAY WITHOUT BORDERS</span><b>✳</b></div>
-      </section>
-
-      <section id="discover" class="section discover-section">
-        <div class="section-kicker">01 / THE UNIVERSE</div>
-        <div class="section-heading-row">
-          <h2>ONE PLATFORM.<br><em>INFINITE WORLDS.</em></h2>
-          <p>There’s always something new around the corner. Explore player-made worlds, find your next obsession, or bring your crew along for the ride.</p>
-        </div>
-        <div class="world-grid">
-          <article class="world-card world-large">
-            <div class="world-visual visual-neon"><div class="neon-sun"></div><div class="neon-city"></div><span class="visual-tag">01 / ADVENTURE</span></div>
-            <div class="world-meta"><div><h3>AFTER HOURS</h3><p>Explore the city after dark.</p></div><span class="arrow-round">↗</span></div>
-          </article>
-          <article class="world-card">
-            <div class="world-visual visual-dunes"><div class="dune dune-a"></div><div class="dune dune-b"></div><div class="dune dune-c"></div><span class="visual-tag">02 / SURVIVAL</span></div>
-            <div class="world-meta"><div><h3>LAST FRONTIER</h3><p>Survive. Adapt. Build.</p></div><span class="arrow-round">↗</span></div>
-          </article>
-          <article class="world-card">
-            <div class="world-visual visual-arcade"><div class="arcade-ring"></div><div class="arcade-cube"></div><span class="visual-tag">03 / COMPETITIVE</span></div>
-            <div class="world-meta"><div><h3>OVERDRIVE</h3><p>Only the sharpest survive.</p></div><span class="arrow-round">↗</span></div>
-          </article>
-        </div>
-        <div class="coming-note"><span>MORE WORLDS ARE IN THE WORKS</span><span>THE LIMIT IS YOUR IMAGINATION ↗</span></div>
-      </section>
-
-      <section id="create" class="create-section">
-        <div class="create-art">
-          <div class="blueprint-label">CREATOR TOOLKIT / 001</div>
-          <div class="blueprint-frame">
-            <div class="blueprint-cross cross-a">+</div><div class="blueprint-cross cross-b">+</div>
-            <div class="blueprint-cube"><span></span><i></i><b></b></div>
-            <div class="blueprint-measure measure-x">120.00</div><div class="blueprint-measure measure-y">080.00</div>
-          </div>
-          <div class="blueprint-caption">FROM A BLANK CANVAS<br>TO A LIVING WORLD.</div>
-        </div>
-        <div class="create-copy">
-          <div class="section-kicker">02 / THE WORKSHOP</div>
-          <h2>DON’T JUST<br>PLAY THE GAME.<br><em>MAKE IT.</em></h2>
-          <p>Got an idea? Make it real. FoRgE gives creators the space to turn imagination into interactive experiences and put them in front of a global community.</p>
-          <ul class="feature-list">
-            <li><span>01</span><div><strong>BUILD YOUR WAY</strong><small>Bring your ideas to life with creator-friendly tools.</small></div><b>↗</b></li>
-            <li><span>02</span><div><strong>PUBLISH INSTANTLY</strong><small>Share your world and invite everyone in.</small></div><b>↗</b></li>
-            <li><span>03</span><div><strong>GROW TOGETHER</strong><small>Get discovered, find collaborators, build a following.</small></div><b>↗</b></li>
-          </ul>
-          <a href="#get-started" class="text-link">BECOME A CREATOR <span>↗</span></a>
+      <div class="ticker"><div class="ticker-track"><span>DISCOVER WORLDS</span><b>✳</b><span>MAKE SOMETHING NEW</span><b>✳</b><span>PLAY YOUR WAY</span><b>✳</b><span>DISCOVER WORLDS</span><b>✳</b><span>MAKE SOMETHING NEW</span><b>✳</b><span>PLAY YOUR WAY</span><b>✳</b></div></div>
+      <section id="platform" class="section-wrap">
+        <div class="section-topline"><span>01 / THE PLATFORM</span><span>MORE THAN A GAME LIBRARY</span></div>
+        <div class="platform-heading"><h2>ONE PLACE.<br /><em>THREE WAYS TO PLAY.</em></h2><p>Jump into something someone else made. Tweak an idea until it feels right. Or start with an empty project and see where it goes.</p></div>
+        <div class="pillars">
+          <article class="pillar"><div class="pillar-number">01 <span>— DISCOVER</span></div><div class="pillar-graphic discover-graphic"><div class="disc-sun"></div><div class="disc-horizon"></div><div class="disc-tower"></div><span>FIND A WORLD</span></div><h3>FIND YOUR NEXT<br />FAVOURITE.</h3><p>Browse experiences made by other players. There’s always another world worth a visit.</p></article>
+          <article class="pillar"><div class="pillar-number">02 <span>— CREATE</span></div><div class="pillar-graphic create-graphic"><div class="create-grid"></div><div class="create-cube"></div><span>START BUILDING</span></div><h3>MAKE THE THING<br />YOU WISH EXISTED.</h3><p>Turn a rough idea into something playable, then keep shaping it as you go.</p></article>
+          <article class="pillar"><div class="pillar-number">03 <span>— SHARE</span></div><div class="pillar-graphic share-graphic"><div class="share-orbit"></div><div class="share-core">F</div><span>PUT IT OUT THERE</span></div><h3>YOUR GAME.<br />YOUR PEOPLE.</h3><p>Share what you make and bring other players into the worlds you create.</p></article>
         </div>
       </section>
-
-      <section id="community" class="community-section">
-        <div class="section-kicker">03 / THE PEOPLE</div>
-        <div class="community-content">
-          <div><h2>MADE BY MANY.<br><em>PLAYED BY EVERYONE.</em></h2><p>FoRgE is more than a place to play. It’s where creators meet players, small ideas become big adventures, and communities make their own rules.</p></div>
-          <div class="community-stamp"><span>F</span><small>CREATE<br>TOGETHER<br>★ 2026 ★</small></div>
+      <section id="workflow" class="workflow-section"><div class="workflow-inner">
+        <div class="workflow-visual"><div class="visual-topline"><span>WORKSHOP / BUILD 0001</span><span>01—03</span></div><div class="workbench"><div class="workbench-sidebar"><i></i><i></i><i></i><i></i></div><div class="workbench-canvas"><div class="canvas-cross cross-left">+</div><div class="canvas-cross cross-right">+</div><div class="canvas-shape"></div><div class="canvas-axis axis-x"></div><div class="canvas-axis axis-y"></div><span class="canvas-coord">X 024.8 / Y 011.2</span></div><div class="workbench-properties"><span>OBJECT</span><i></i><i></i><i></i><span>TRANSFORM</span><i></i><i></i></div></div><div class="visual-caption"><span>CONCEPT ART / NOT A FINAL SCREEN</span><span>BUILT TO BE EXPLORED ↗</span></div></div>
+        <div class="workflow-copy"><div class="section-topline"><span>02 / THE WORKFLOW</span></div><h2>FROM FIRST<br />IDEA TO <em>PLAYABLE.</em></h2><p>Making a game should feel like making something — not filling out paperwork. FoRgE is being designed to bring the player and creator sides closer together.</p><div class="steps"><div><span>01</span><section><b>START WITH AN IDEA</b><small>A sketch, a mechanic, a strange little world. Start anywhere.</small></section><i>↗</i></div><div><span>02</span><section><b>BUILD AND EXPERIMENT</b><small>Shape the experience, test it, break it, make it better.</small></section><i>↗</i></div><div><span>03</span><section><b>LET PEOPLE PLAY</b><small>Share your work and see what the community does with it.</small></section><i>↗</i></div></div></div>
+      </div></section>
+      <section id="worlds" class="section-wrap games-section">
+        <div class="section-topline"><span>03 / THE GAMES</span><span>A FEW DIRECTIONS WE LOVE</span></div>
+        <div class="games-heading"><h2>NOT ONE GENRE.<br /><em>NOT ONE WAY TO PLAY.</em></h2><p>Different people make different things. That’s the point. These are visual directions for the kind of variety we want FoRgE to make room for.</p></div>
+        <div class="game-strips">
+          <article class="game-strip"><div class="strip-art strip-city"><i></i><b></b></div><div class="strip-index">01</div><div class="strip-copy"><small>URBAN / STORY</small><h3>AFTER THE LAST TRAIN</h3><p>A city that keeps moving after everyone else has gone home.</p></div><span class="strip-arrow">↗</span></article>
+          <article class="game-strip"><div class="strip-art strip-wild"><i></i><b></b></div><div class="strip-index">02</div><div class="strip-copy"><small>EXPLORATION / SURVIVAL</small><h3>THE LONG WAY OUT</h3><p>Unmapped places, scarce resources, and no set route home.</p></div><span class="strip-arrow">↗</span></article>
+          <article class="game-strip"><div class="strip-art strip-speed"><i></i><b></b></div><div class="strip-index">03</div><div class="strip-copy"><small>ARCADE / COMPETITIVE</small><h3>REDLINE CLUB</h3><p>Short races, close calls, and one more run before you quit.</p></div><span class="strip-arrow">↗</span></article>
         </div>
-        <div class="community-bottom"><span>CREATORS WELCOME. ALWAYS.</span><span>NO GATES. JUST POSSIBILITIES.</span></div>
+        <p class="concept-note">THE TITLES AND ART ABOVE ARE CONCEPTS, NOT RELEASED GAMES.</p>
       </section>
-
-      <section id="get-started" class="signup-section">
-        <div class="signup-mark">F.</div>
-        <div class="section-kicker">04 / YOUR MOVE</div>
-        <h2>THE NEXT WORLD<br><em>COULD BE YOURS.</em></h2>
-        <p>We’re getting the forge ready. Get on the list and be among the first to step inside.</p>
-        <form class="signup-form" @submit.prevent="joinWaitlist">
-          <input v-model="email" type="email" placeholder="Your email address" aria-label="Your email address" required />
-          <button type="submit">{{ subscribed ? 'YOU’RE ON THE LIST ✓' : 'GET EARLY ACCESS ↗' }}</button>
-        </form>
-        <small class="form-note">{{ subscribed ? 'Thanks for your interest. FoRgE updates are coming.' : 'NO SPAM. JUST FORGE UPDATES.' }}</small>
-      </section>
+      <section id="about" class="manifesto-section"><div class="manifesto-mark"><img src="/forge-mark.svg" alt="FoRgE symbol" /></div><div class="manifesto-copy"><div class="section-topline"><span>04 / WHY FoRgE</span></div><h2>GAMES ARE BETTER<br />WHEN YOU CAN <em>MAKE THEM.</em></h2><p>We’re building FoRgE for people who don’t stop at the credits. The curious players, the tinkerers, the ones with a game idea they can’t quite let go of.</p><p class="manifesto-small">No grand promises. Just a platform we want to make worth opening.</p></div><div class="manifesto-aside"><span>BUILT AROUND<br />THE PEOPLE<br />WHO PLAY.</span><i>FoRgE / 2026</i></div></section>
+      <section id="access" class="access-section"><div class="access-inner"><div class="section-topline"><span>05 / STAY IN THE LOOP</span><span>FoRgE — IN DEVELOPMENT</span></div><h2>WE’RE STILL<br /><em>MAKING THE TOOLS.</em></h2><p>FoRgE is in development. Leave your email if you want to hear when there’s something real to try.</p><form class="access-form" @submit.prevent="submitEmail"><input v-model="email" type="email" placeholder="Email address" aria-label="Email address" required /><button type="submit">{{ submitted ? 'THANK YOU ✓' : 'KEEP ME POSTED ↗' }}</button></form><small class="form-note">{{ submitted ? 'Thanks — this demo form does not send or store your address yet.' : 'NO FAKE LAUNCH DATE. JUST AN UPDATE WHEN THERE IS NEWS.' }}</small></div></section>
     </main>
-
-    <footer id="about" class="footer">
-      <a class="brand footer-brand" href="#"><svg class="brand-mark" viewBox="0 0 54 54" fill="none"><path d="M8 7H47V18H20V25H43V36H20V48H8V7Z" fill="currentColor"/><path d="M8 7H20V48H8V7Z" fill="#E3AD83"/><path d="M34 7H47V18H34V7Z" fill="#8D583B"/></svg><span>Fo<span>R</span>GE</span></a>
-      <span class="footer-tagline">MAKE WORLDS. PLAY ANYTHING.</span>
-      <span class="copyright">© 2026 FoRgE. ALL WORLDS RESERVED.</span>
-      <a class="back-top" href="#">BACK TO TOP ↑</a>
-    </footer>
+    <footer class="site-footer"><a class="brand" href="#"><img src="/forge-mark.svg" alt="" class="brand-icon" /><span>FoRgE</span></a><span class="footer-line">PLAY IT. CHANGE IT. MAKE IT YOURS.</span><span class="footer-copy">© 2026 FoRgE — MADE FOR THE CURIOUS.</span><a class="back-top" href="#">BACK TO TOP ↑</a></footer>
   </div>
 </template>
