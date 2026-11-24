@@ -22,3 +22,7 @@ Configure from the repository root with CMake and the WebView2 SDK directory:
 `cmake -S . -B build -A x64 -DWEBVIEW2_SDK_DIR=<WebView2 native SDK path>`
 
 The Windows workflow installs the WebView2 SDK and local Three.js files, builds all native applications, and packages the FoRgE font files and character textures. WebView2 Runtime must be installed on the target Windows machine.
+
+## Current editor scope
+
+The live WebGL viewport currently supports block placement, selection, deletion, orbit navigation, zoom, scene saving, and native play testing. Transform gizmos, imported mesh assets, terrain sculpting, and multiplayer editing are not part of this iteration yet.
