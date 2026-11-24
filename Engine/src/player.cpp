@@ -1,11 +1,10 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <filesystem>
-#include <windows.h>
 #include "forge/World.hpp"
-static void SetAppDirectory(){wchar_t p[MAX_PATH]{};GetModuleFileNameW(nullptr,p,MAX_PATH);SetCurrentDirectoryW(std::filesystem::path(p).parent_path().c_str());}
-int main(){
- SetAppDirectory();SetConfigFlags(FLAG_WINDOW_RESIZABLE|FLAG_MSAA_4X_HINT);InitWindow(1280,720,"FoRgE Player");SetTargetFPS(144);
+static void SetAppDirectory(const char* executable){std::error_code ec;auto p=std::filesystem::absolute(executable,ec);if(!ec)std::filesystem::current_path(p.parent_path(),ec);}
+int main(int argc,char** argv){
+ if(argc>0&&argv[0])SetAppDirectory(argv[0]);SetConfigFlags(FLAG_WINDOW_RESIZABLE|FLAG_MSAA_4X_HINT);InitWindow(1280,720,"FoRgE Player");SetTargetFPS(144);
  Image icon=LoadImage("Resources/Icons/forge-256.png");if(icon.data){SetWindowIcon(icon);UnloadImage(icon);}
  Texture2D skin=LoadTexture("Resources/player_texture.png");Model cube=LoadModelFromMesh(GenMeshCube(1,1,1));if(skin.id)cube.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture=skin;
  forge::World world;if(!world.Load("scene.forge")){for(int x=-8;x<=8;++x)for(int z=-8;z<=8;++z)world.Add(x,z,2);world.Add(3,2,0);world.Add(4,2,1);}
