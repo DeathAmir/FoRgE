@@ -25,6 +25,9 @@ add_library(imgui_core
 )
 target_include_directories(imgui_core PUBLIC ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
 target_compile_definitions(imgui_core PUBLIC UNICODE _UNICODE)
+if(MSVC)
+    set_property(TARGET imgui_core PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 if(WIN32)
     add_executable(FoRgEStudio WIN32 src/main.cpp)
