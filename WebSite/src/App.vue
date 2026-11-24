@@ -21,7 +21,7 @@ const submitEmail = () => { if (email.value.trim()) submitted.value = true }
         <div class="hero-copy">
           <div class="overline"><span class="status-dot"></span> AN OPEN PLATFORM FOR PLAYER-MADE GAMES</div>
           <h1>PLAY IT.<br /><span>CHANGE IT.</span><br />MAKE IT YOURS.</h1>
-          <p class="hero-intro">FoRgE is being built around one simple idea: games should be more than something you finish. Find a world, make it your own, or build one from scratch.</p>
+          <p class="hero-intro">A home for player-made worlds. Discover games, open the workshop, build with your own tools, and publish something other people can jump into.</p>
           <div class="hero-actions"><a class="button button-main" href="#platform">TAKE A LOOK <span>↗</span></a><a class="quiet-link" href="#workflow">WHAT IS FoRgE? <span>↓</span></a></div>
           <div class="hero-note"><span>01</span> A PLATFORM IN THE MAKING <i></i> BUILT FOR PLAYERS AND CREATORS</div>
         </div>
@@ -30,7 +30,7 @@ const submitEmail = () => { if (email.value.trim()) submitted.value = true }
           <div class="window-body">
             <aside class="window-sidebar"><span class="side-label">LIBRARY</span><span class="side-item active"><b>◈</b> Discover</span><span class="side-item"><b>▣</b> My games</span><span class="side-item"><b>⌘</b> Workshop</span><div class="sidebar-bottom"><span class="avatar">F</span><span><b>YOUR SPACE</b><small>Creator profile</small></span></div></aside>
             <div class="window-main">
-              <div class="window-heading"><div><small>YOUR NEXT SESSION STARTS HERE</small><h3>Find your next world.</h3></div><span class="window-filter">ALL GAMES&nbsp;⌄</span></div>
+              <div class="window-heading"><div><small>YOUR NEXT SESSION STARTS HERE</small><h3>Find your next world.</h3></div><div class="window-wallet"><span class="forge-coin">\uE001</span><b>2,450</b><small>FORGE COINS</small></div><span class="window-filter">ALL GAMES&nbsp;⌄</span></div>
               <div class="featured-game"><div class="featured-art"><div class="art-moon"></div><div class="art-ridge ridge-one"></div><div class="art-ridge ridge-two"></div><span>FEATURED WORLD / 001</span></div><div class="featured-info"><div><small>EXPLORATION · COMMUNITY</small><b>Somewhere, not nowhere.</b></div><span class="play-button">PLAY&nbsp; ↗</span></div></div>
               <div class="window-section-title"><b>MADE BY THE COMMUNITY</b><span>VIEW ALL ↗</span></div>
               <div class="mini-games"><div class="mini-game"><div class="mini-art mini-art-one"><i></i></div><b>Dust District</b><small>WORLD · 12 MIN AGO</small></div><div class="mini-game"><div class="mini-art mini-art-two"><i></i></div><b>Low Orbit</b><small>EXPERIMENT · 1 HOUR AGO</small></div><div class="mini-game"><div class="mini-art mini-art-three"><i></i></div><b>Night Shift</b><small>RACING · YESTERDAY</small></div></div>
@@ -46,7 +46,7 @@ const submitEmail = () => { if (email.value.trim()) submitted.value = true }
         <div class="platform-heading"><h2>ONE PLACE.<br /><em>THREE WAYS TO PLAY.</em></h2><p>Jump into something someone else made. Tweak an idea until it feels right. Or start with an empty project and see where it goes.</p></div>
         <div class="pillars">
           <article class="pillar"><div class="pillar-number">01 <span>— DISCOVER</span></div><div class="pillar-graphic discover-graphic"><div class="disc-sun"></div><div class="disc-horizon"></div><div class="disc-tower"></div><span>FIND A WORLD</span></div><h3>FIND YOUR NEXT<br />FAVOURITE.</h3><p>Browse experiences made by other players. There’s always another world worth a visit.</p></article>
-          <article class="pillar"><div class="pillar-number">02 <span>— CREATE</span></div><div class="pillar-graphic create-graphic"><div class="create-grid"></div><div class="create-cube"></div><span>START BUILDING</span></div><h3>MAKE THE THING<br />YOU WISH EXISTED.</h3><p>Turn a rough idea into something playable, then keep shaping it as you go.</p></article>
+          <article class="pillar"><div class="pillar-number">02 <span>— CREATE</span></div><div class="pillar-graphic create-graphic"><div class="create-grid"></div><div class="create-cube"></div><span>START BUILDING</span></div><h3>MAKE THE THING<br />YOU WISH EXISTED.</h3><p>Build scenes, test mechanics, and shape a playable world with creator-first tools.</p></article>
           <article class="pillar"><div class="pillar-number">03 <span>— SHARE</span></div><div class="pillar-graphic share-graphic"><div class="share-orbit"></div><div class="share-core">F</div><span>PUT IT OUT THERE</span></div><h3>YOUR GAME.<br />YOUR PEOPLE.</h3><p>Share what you make and bring other players into the worlds you create.</p></article>
         </div>
       </section>
