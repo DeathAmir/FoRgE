@@ -75,8 +75,10 @@ jobs:
       - name: Configure native C++ projects
         shell: pwsh
         run: |
-          $sdk = (Resolve-Path "packages/Microsoft.Web.WebView2/build/native").Path
-          cmake -S . -B build -A x64 "-DWEBVIEW2_SDK_DIR=$sdk"
+          $sdk = (Resolve-Path "packages/Microsoft.Web.WebView2/build/native").Path.Replace('\','/')
+          Write-Host "Using WebView2 SDK at $sdk"
+          if (!(Test-Path "$sdk/include/WebView2.h")) { throw "Resolved WebView2 SDK path is invalid: $sdk" }
+          cmake -S . -B build -A x64 "-DWEBVIEW2_SDK_DIR:PATH=$sdk"
       - name: Build Studio, Player and Client
         run: cmake --build build --config Release --parallel
       - name: Verify complete package
