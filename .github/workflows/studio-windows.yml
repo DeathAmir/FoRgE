@@ -12,6 +12,18 @@ on:
       - "WebSite/public/fonts/**"
       - "WebSite/public/icons/**"
       - ".github/workflows/studio-windows.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "CMakeLists.txt"
+      - "WebSite/**"
+      - "Engine/**"
+      - "Client/**"
+      - "Studio/**"
+      - "tools/**"
+      - "WebSite/public/fonts/**"
+      - "WebSite/public/icons/**"
+      - ".github/workflows/studio-windows.yml"
   workflow_dispatch:
 permissions:
   contents: read
@@ -111,12 +123,15 @@ jobs:
         working-directory: WebSite
         run: npm run build
       - name: Configure GitHub Pages
+        if: github.event_name == 'push'
         uses: actions/configure-pages@v5
       - name: Upload website artifact
+        if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: WebSite/dist
   website-deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Deploy FoRgE website
     environment:
       name: github-pages
