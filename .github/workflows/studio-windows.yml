@@ -1,7 +1,18 @@
-
 name: FoRgE Unified Build and Deploy
 on:
   push:
+    branches: [main]
+    paths:
+      - "CMakeLists.txt"
+      - "WebSite/**"
+      - "Engine/**"
+      - "Client/**"
+      - "Studio/**"
+      - "tools/**"
+      - "WebSite/public/fonts/**"
+      - "WebSite/public/icons/**"
+      - ".github/workflows/studio-windows.yml"
+  pull_request:
     branches: [main]
     paths:
       - "CMakeLists.txt"
@@ -23,9 +34,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-windows-x64:
-    name: Generate assets, build engine, studio and client
+    name: Generate assets, build native runtime and WebView2 apps
     runs-on: windows-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,20 +46,25 @@ jobs:
           python-version: "3.12"
       - name: Install asset tools
         run: python -m pip install --disable-pip-version-check fonttools pillow brotli
-      - name: Generate FoRgE brand fonts and application icon
+      - name: Generate FoRgE brand fonts and icons
         run: python tools/build_brand_assets.py
-      - name: Generate default player texture
+      - name: Generate textured character atlas
         run: python tools/build_player_texture.py
+      - name: Install Studio WebGL dependencies
+        shell: pwsh
+        run: |
+          npm install --prefix Studio/UI three@0.180.0
+          Copy-Item "Studio/UI/node_modules/three/build/three.module.js" "Studio/UI/three.module.js"
+          Copy-Item "Studio/UI/node_modules/three/examples/jsm/controls/OrbitControls.js" "Studio/UI/OrbitControls.js"
       - name: Verify generated assets
         shell: pwsh
         run: |
-          $weights = 300,400,500,600,700,800,900
-          foreach ($weight in $weights) {
-            $font = "WebSite/public/fonts/forge-$weight.ttf"
-            if (!(Test-Path $font)) { throw "Missing generated font: $font" }
+          foreach ($weight in @(300,400,500,600,700,800,900)) {
+            if (!(Test-Path "WebSite/public/fonts/forge-$weight.ttf")) { throw "Missing FoRgE font weight $weight" }
           }
-          if (!(Test-Path "WebSite/public/icons/forge.ico")) { throw "Missing FoRgE icon." }
-          if (!(Test-Path "Engine/assets/player_texture.png")) { throw "Missing player texture." }
+          foreach ($asset in @("Engine/assets/player_head.png","Engine/assets/player_torso.png","Engine/assets/player_arm.png","Engine/assets/player_leg.png","Studio/UI/three.module.js","Studio/UI/OrbitControls.js")) {
+            if (!(Test-Path $asset)) { throw "Missing generated asset: $asset" }
+          }
       - name: Install WebView2 SDK
         shell: pwsh
         run: |
@@ -59,9 +75,11 @@ jobs:
       - name: Configure native C++ projects
         shell: pwsh
         run: |
-          $sdk = (Resolve-Path "packages/Microsoft.Web.WebView2/build/native").Path
-          cmake -S . -B build -A x64 "-DWEBVIEW2_SDK_DIR=$sdk"
-      - name: Build Studio, Player and WebView2 Client
+          $sdk = (Resolve-Path "packages/Microsoft.Web.WebView2/build/native").Path.Replace('\','/')
+          Write-Host "Using WebView2 SDK at $sdk"
+          if (!(Test-Path "$sdk/include/WebView2.h")) { throw "Resolved WebView2 SDK path is invalid: $sdk" }
+          cmake -S . -B build -A x64 "-DWEBVIEW2_SDK_DIR:PATH=$sdk"
+      - name: Build Studio, Player and Client
         run: cmake --build build --config Release --parallel
       - name: Verify complete package
         shell: pwsh
@@ -70,8 +88,9 @@ jobs:
           foreach ($exe in @("FoRgEStudio.exe","FoRgEPlayer.exe","FoRgEClient.exe")) {
             if (!(Test-Path "$package/$exe")) { throw "Package executable missing: $exe" }
           }
-          if (!(Test-Path "$package/Resources/player_texture.png")) { throw "Player texture missing from package." }
-          if (!(Test-Path "$package/Resources/Icons/forge.ico")) { throw "Application icon missing from package." }
+          foreach ($asset in @("StudioUI/index.html","StudioUI/app.js","StudioUI/three.module.js","Resources/player_head.png","Resources/player_torso.png","Resources/player_arm.png","Resources/player_leg.png")) {
+            if (!(Test-Path "$package/$asset")) { throw "Package asset missing: $asset" }
+          }
           if ((Get-ChildItem "$package/Resources/Fonts/forge-*.ttf").Count -ne 7) { throw "Expected all seven FoRgE font weights." }
           Get-ChildItem $package -Recurse | Select-Object FullName,Length
       - name: Upload FoRgE Windows x64 package
@@ -81,7 +100,6 @@ jobs:
           path: build/FoRgE-Windows-x64/
           if-no-files-found: error
           retention-days: 14
-
   website-build:
     name: Build FoRgE website
     runs-on: ubuntu-latest
@@ -107,13 +125,15 @@ jobs:
         working-directory: WebSite
         run: npm run build
       - name: Configure GitHub Pages
+        if: github.event_name == 'push'
         uses: actions/configure-pages@v5
       - name: Upload website artifact
+        if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: WebSite/dist
-
   website-deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Deploy FoRgE website
     environment:
       name: github-pages
