@@ -1,10 +1,10 @@
 #pragma once
 #include <raylib.h>
+#include <raymath.h>
 #include <vector>
 #include <fstream>
 #include <string>
 #include <utility>
-#include <cmath>
 namespace forge {
 struct Block{int x;int z;int type;};
 struct World{
@@ -18,8 +18,7 @@ struct CharacterRig{Model head{},torso{},leftArm{},rightArm{},leftLeg{},rightLeg
 inline Color BlockColor(int type){if(type==1)return Color{125,132,143,255};if(type==2)return Color{91,151,78,255};return Color{190,79,48,255};}
 inline void DrawBlock(const Block& b){Vector3 p{(float)b.x,0.5f,(float)b.z};DrawCubeV(p,{1,1,1},BlockColor(b.type));DrawCubeWiresV(p,{1.005f,1.005f,1.005f},Color{35,35,39,255});}
 inline CharacterRig LoadCharacter(){
- CharacterRig r;
- const char* paths[6]={"Resources/player_head.png","Resources/player_torso.png","Resources/player_arm.png","Resources/player_arm.png","Resources/player_leg.png","Resources/player_leg.png"};
+ CharacterRig r;const char* paths[6]={"Resources/player_head.png","Resources/player_torso.png","Resources/player_arm.png","Resources/player_arm.png","Resources/player_leg.png","Resources/player_leg.png"};
  Model* models[6]={&r.head,&r.torso,&r.leftArm,&r.rightArm,&r.leftLeg,&r.rightLeg};
  for(int i=0;i<6;i++){r.textures[i]=LoadTexture(paths[i]);*models[i]=LoadModelFromMesh(GenMeshCube(1,1,1));if(r.textures[i].id)models[i]->materials[0].maps[MATERIAL_MAP_DIFFUSE].texture=r.textures[i];}
  r.loaded=true;return r;
