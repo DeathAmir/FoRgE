@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <windowsx.h>
 #include <d3d11.h>
 #include <dxgi.h>
 #include <dwmapi.h>
