@@ -3,12 +3,21 @@
 #include <wrl.h>
 #include <WebView2.h>
 #include <filesystem>
+#include <fstream>
 #include <string>
+#include <vector>
 using Microsoft::WRL::ComPtr;
 static ComPtr<ICoreWebView2Controller> g_controller;
 static ComPtr<ICoreWebView2> g_webview;
 static HWND g_window=nullptr;
 static std::filesystem::path AppDir(){wchar_t p[MAX_PATH]{};GetModuleFileNameW(nullptr,p,MAX_PATH);return std::filesystem::path(p).parent_path();}
+static std::string Base64File(const std::filesystem::path& path){
+ std::ifstream in(path,std::ios::binary);if(!in)return {};std::vector<unsigned char> data((std::istreambuf_iterator<char>(in)),{});
+ static constexpr char alphabet[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+ std::string out;out.reserve((data.size()+2)/3*4);
+ for(size_t i=0;i<data.size();i+=3){unsigned a=data[i],b=i+1<data.size()?data[i+1]:0,c=i+2<data.size()?data[i+2]:0;unsigned v=(a<<16)|(b<<8)|c;out.push_back(alphabet[(v>>18)&63]);out.push_back(alphabet[(v>>12)&63]);out.push_back(i+1<data.size()?alphabet[(v>>6)&63]:'=');out.push_back(i+2<data.size()?alphabet[v&63]:'=');}
+ return out;
+}
 static void Launch(const wchar_t* exe){
  auto path=AppDir()/exe;if(!std::filesystem::exists(path)){MessageBoxW(g_window,(L"Missing application: "+path.wstring()).c_str(),L"FoRgE Client",MB_ICONERROR);return;}
  std::wstring command=L"\""+path.wstring()+L"\"";STARTUPINFOW si{sizeof(si)};PROCESS_INFORMATION pi{};
@@ -26,7 +35,7 @@ static void CreateWebView(){
      [](ICoreWebView2*,ICoreWebView2WebMessageReceivedEventArgs* args)->HRESULT{
       LPWSTR message=nullptr;if(SUCCEEDED(args->TryGetWebMessageAsString(&message))&&message){if(wcscmp(message,L"play")==0)Launch(L"FoRgEPlayer.exe");else if(wcscmp(message,L"studio")==0)Launch(L"FoRgEStudio.exe");CoTaskMemFree(message);}return S_OK;
      }).Get(),&token);
-    const wchar_t* html=LR"HTML(
+    std::wstring html=LR"HTML(
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
 *{box-sizing:border-box}body{margin:0;background:#12151c;color:#ececf0;font:16px 'Segoe UI',sans-serif;overflow:hidden}
 .top{height:64px;background:#191d26;border-bottom:1px solid #303541;display:flex;align-items:center;padding:0 34px;gap:14px}
@@ -42,7 +51,9 @@ h1{font-size:58px;line-height:1.02;margin:18px 0 14px;max-width:650px}p{color:#a
 <div class="actions"><button class="btn primary" onclick="send('play')">PLAY FoRgE</button><button class="btn" onclick="send('studio')">OPEN CREATOR STUDIO</button></div>
 <section class="panel"><div><div class="small">FoRgE DESKTOP CLIENT</div><div style="margin-top:8px;font-weight:600">Native runtime · Local world preview</div></div><div class="status">WEBVIEW2 INTERFACE / C++ HOST</div></section></main>
 <script>function send(action){window.chrome.webview.postMessage(action)}</script></body></html>)HTML";
-    return g_webview->NavigateToString(html);
+    const auto font=Base64File(AppDir()/L"Resources"/L"Fonts"/L"forge-400.ttf");
+    if(!font.empty()){std::wstring css=L"@font-face{font-family:FoRgE;src:url(data:font/ttf;base64,"+std::wstring(font.begin(),font.end())+L")}body{font-family:FoRgE,'Segoe UI',sans-serif}";auto at=html.find(L"</style>");if(at!=std::wstring::npos)html.insert(at,css);}
+    return g_webview->NavigateToString(html.c_str());
    }).Get());
  }).Get());
 }

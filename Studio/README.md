@@ -1,13 +1,24 @@
-# FoRgE Creator Studio and Runtime
+# FoRgE Creator Studio
 
-The native C++ foundation of the FoRgE creation platform.
+FoRgE Studio is a native Win32 application whose complete editor interface is hosted by Microsoft Edge WebView2. The editor uses the FoRgE typeface and a local Three.js WebGL viewport; it does not use raylib GUI or raygui.
 
-- **FoRgEStudio.exe** — raylib + raygui editor, live 3D viewport, block placement/removal, copper/stone/grass materials, textured six-part block character, inspector, all seven FoRgE font weights and scene save.
-- **FoRgEPlayer.exe** — native C++ runtime prototype with third-person camera, WASD movement, jumping and loading the saved local scene.
-- **FoRgEClient.exe** — Windows WebView2 desktop shell. Play and Creator Studio launch the native applications.
+## Editor controls
 
-The unified Windows workflow generates brand fonts, ICO/PNG icons and the pixel-art player texture, installs the WebView2 SDK, configures CMake and builds all three applications.
+- Select a material in Block Library, then left-click the scene to place it.
+- Left-click a block to select it.
+- Right-click a block to remove it.
+- Middle-drag to orbit and use the wheel to zoom.
+- `Ctrl+S` saves `scene.forge` beside the application.
+- Play Test saves the current scene and launches the native C++ player.
 
-For local builds, install CMake, Visual Studio 2022 C++ tools, Python 3.12 and the WebView2 SDK NuGet package, then run CMake with `-DWEBVIEW2_SDK_DIR=<package>/build/native`.
+## Runtime
 
-The editor saves `scene.forge` beside the applications. This is an early engine foundation, not a finished online platform: networking, accounts, publishing, physics and collaborative editing are not implemented yet.
+The player uses raylib for rendering and Bullet Physics for the character controller, gravity, ground contact, jumping, and collisions with world blocks. The default character is assembled from separately textured head, torso, arms, and legs with a procedural walk cycle.
+
+## Build
+
+Configure from the repository root with CMake and the WebView2 SDK directory:
+
+`cmake -S . -B build -A x64 -DWEBVIEW2_SDK_DIR=<WebView2 native SDK path>`
+
+The Windows workflow installs the WebView2 SDK and local Three.js files, builds all native applications, and packages the FoRgE font files and character textures. WebView2 Runtime must be installed on the target Windows machine.
