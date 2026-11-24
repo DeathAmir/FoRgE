@@ -1,10 +1,11 @@
 
-name: FoRgE Unified Windows Build
+name: FoRgE Unified Build and Deploy
 on:
   push:
     branches: [main]
     paths:
       - "CMakeLists.txt"
+      - "WebSite/**"
       - "Engine/**"
       - "Client/**"
       - "Studio/**"
@@ -15,6 +16,8 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  pages: write
+  id-token: write
 concurrency:
   group: forge-unified-windows
   cancel-in-progress: true
@@ -78,3 +81,46 @@ jobs:
           path: build/FoRgE-Windows-x64/
           if-no-files-found: error
           retention-days: 14
+
+  website-build:
+    name: Build FoRgE website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install font and icon build dependencies
+        run: python -m pip install --disable-pip-version-check fonttools brotli pillow
+      - name: Generate FoRgE typeface and brand icons
+        run: python tools/build_brand_assets.py
+      - name: Install website dependencies
+        working-directory: WebSite
+        run: npm install
+      - name: Type-check and build website
+        working-directory: WebSite
+        run: npm run build
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: WebSite/dist
+
+  website-deploy:
+    name: Deploy FoRgE website
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: website-build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
