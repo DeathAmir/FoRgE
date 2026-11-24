@@ -1,0 +1,33 @@
+name: Build FoRgE Creator Studio for Windows
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Studio/**"
+      - ".github/workflows/studio-windows.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: forge-studio-windows
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure CMake
+        run: cmake -S Studio -B Studio/build -A x64
+      - name: Build FoRgE Studio
+        run: cmake --build Studio/build --config Release --parallel
+      - name: Upload Windows x64 executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: FoRgE-Creator-Studio-Windows-x64
+          path: Studio/build/Release/FoRgEStudio.exe
+          if-no-files-found: error
