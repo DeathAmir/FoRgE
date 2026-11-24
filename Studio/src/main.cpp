@@ -34,7 +34,7 @@ int main(int argc,char** argv){
    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){if(selectedTool==0){world.Add(hoverX,hoverZ,selectedType);status="Block placed in live scene";}else{world.Remove(hoverX,hoverZ);status="Block removed";}}
    if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){world.Remove(hoverX,hoverZ);status="Block removed";}
   }
-  BeginDrawing();ClearBackground(Color{18,21,28,255});BeginMode3D(camera);DrawWorld(world);DrawGrid(40,1.0f);DrawPlayer(playerCube,{0,0,0});
+  BeginDrawing();ClearBackground(Color{18,21,28,255});BeginMode3D(camera);DrawWorld(world);DrawGrid(40,1.0f);forge::DrawPlayer(playerCube,{0,0,0});
   if(MouseInViewport())DrawCubeWiresV({(float)hoverX,0.5f,(float)hoverZ},{1.04f,1.04f,1.04f},Color{245,142,90,255});EndMode3D();
   DrawRectangle(0,0,GetScreenWidth(),54,Color{25,28,36,255});DrawText("F",20,8,34,Color{222,91,61,255});DrawText("FoRgE",55,13,24,RAYWHITE);DrawText("CREATOR STUDIO  /  LIVE WORLD",145,18,14,Color{151,157,169,255});
   if(GuiButton(R(GetScreenWidth()-250,9,105,36),"SAVE  CTRL+S"))status=world.Save("scene.forge")?"Saved scene.forge":"Save failed";
