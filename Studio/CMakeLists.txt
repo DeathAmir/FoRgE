@@ -26,8 +26,8 @@ if(WIN32)
   set_property(TARGET FoRgEStudio PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
  endif()
  set(PACKAGE "\${CMAKE_BINARY_DIR}/FoRgEStudio-Package")
- set(FONTS "\${CMAKE_CURRENT_SOURCE_DIR}/../../WebSite/public/fonts")
- set(ICON "\${CMAKE_CURRENT_SOURCE_DIR}/../../WebSite/public/icons/forge.ico")
+ set(FONTS "\${CMAKE_CURRENT_SOURCE_DIR}/../WebSite/public/fonts")
+ set(ICON "\${CMAKE_CURRENT_SOURCE_DIR}/../WebSite/public/icons/forge.ico")
  add_custom_command(TARGET FoRgEStudio POST_BUILD
   COMMAND \${CMAKE_COMMAND} -E make_directory "\${PACKAGE}/Resources/Fonts"
   COMMAND \${CMAKE_COMMAND} -E make_directory "\${PACKAGE}/Resources/Icons"
