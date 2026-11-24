@@ -10,6 +10,8 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dwmapi.lib")
@@ -90,7 +92,7 @@ static void ApplyTheme() {
     s.Colors[ImGuiCol_SliderGrab] = ImVec4(0.88f, 0.32f, 0.20f, 1.0f);
     s.Colors[ImGuiCol_SliderGrabActive] = ImVec4(1.0f, 0.48f, 0.27f, 1.0f);
     s.Colors[ImGuiCol_Tab] = ImVec4(0.10f, 0.11f, 0.13f, 1.0f);
-    s.Colors[ImGuiCol_TabActive] = ImVec4(0.35f, 0.14f, 0.11f, 1.0f);
+    s.Colors[ImGuiCol_TabSelected] = ImVec4(0.35f, 0.14f, 0.11f, 1.0f);
     s.Colors[ImGuiCol_TitleBg] = ImVec4(0.047f, 0.052f, 0.064f, 1.0f);
     s.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.047f, 0.052f, 0.064f, 1.0f);
 }
