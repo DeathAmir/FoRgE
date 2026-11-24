@@ -5,7 +5,6 @@ from urllib.request import Request, urlopen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.pens.t2CharStringPen import T2CharStringPen
 from fontTools.ttLib import TTFont
-from fontTools.varLib.instancer import instantiateVariableFont
 from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,7 +14,6 @@ ICONS = PUBLIC / "icons"
 FONTS.mkdir(parents=True, exist_ok=True)
 ICONS.mkdir(parents=True, exist_ok=True)
 
-SOURCE_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed%5Bwght%5D.ttf"
 LICENSE_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/OFL.txt"
 
 def download(url):
@@ -23,7 +21,6 @@ def download(url):
     with urlopen(request, timeout=60) as response:
         return response.read()
 
-source_data = download(SOURCE_URL)
 license_data = download(LICENSE_URL)
 (FONTS / "OFL.txt").write_bytes(license_data)
 
@@ -116,18 +113,17 @@ def save_otf(font, path, family, style, weight):
     builder.save(path)
 
 weights = [
-    (300, "Light"),
-    (400, "Regular"),
-    (500, "Medium"),
-    (600, "SemiBold"),
-    (700, "Bold"),
-    (800, "ExtraBold"),
-    (900, "Black"),
+    (300, "Light", "BarlowCondensed-Light.ttf"),
+    (400, "Regular", "BarlowCondensed-Regular.ttf"),
+    (500, "Medium", "BarlowCondensed-Medium.ttf"),
+    (600, "SemiBold", "BarlowCondensed-SemiBold.ttf"),
+    (700, "Bold", "BarlowCondensed-Bold.ttf"),
+    (800, "ExtraBold", "BarlowCondensed-ExtraBold.ttf"),
+    (900, "Black", "BarlowCondensed-Black.ttf"),
 ]
 
-for weight, style in weights:
-    font = TTFont(BytesIO(source_data))
-    font = instantiateVariableFont(font, {"wght": weight}, inplace=True)
+for weight, style, source_file in weights:
+    font = TTFont(BytesIO(download(f"https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/{source_file}")))
     add_brand_glyphs(font)
     rename_font(font, weight, style)
     ttf_path = FONTS / f"forge-{weight}.ttf"
