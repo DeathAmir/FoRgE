@@ -1,35 +1,13 @@
-# FoRgE Creator Studio
+# FoRgE Creator Studio and Runtime
 
-Native Windows x64 creator workspace built with C++20, Win32, Direct3D 11 and Dear ImGui.
+The native C++ foundation of the FoRgE creation platform.
 
-## Distribution layout
+- **FoRgEStudio.exe** — raylib + raygui editor, live 3D viewport, block placement/removal, copper/stone/grass materials, textured six-part block character, inspector, all seven FoRgE font weights and scene save.
+- **FoRgEPlayer.exe** — native C++ runtime prototype with third-person camera, WASD movement, jumping and loading the saved local scene.
+- **FoRgEClient.exe** — Windows WebView2 desktop shell. Play and Creator Studio launch the native applications.
 
-FoRgE Studio is distributed as a folder, not a standalone EXE:
+The unified Windows workflow generates brand fonts, ICO/PNG icons and the pixel-art player texture, installs the WebView2 SDK, configures CMake and builds all three applications.
 
-- FoRgEStudio.exe
-- Resources/Fonts/forge-300.ttf through forge-900.ttf
-- Resources/Icons/forge.ico
-- README.md
+For local builds, install CMake, Visual Studio 2022 C++ tools, Python 3.12 and the WebView2 SDK NuGet package, then run CMake with `-DWEBVIEW2_SDK_DIR=<package>/build/native`.
 
-Keep Resources beside the executable. All seven FoRgE font weights are loaded at startup. The ICO is embedded as the native Windows application icon and is also included in the package.
-
-## Build
-
-Requires Visual Studio 2022 with the Desktop development with C++ workload and CMake.
-
-    cmake -S Studio -B Studio/build -A x64
-    cmake --build Studio/build --config Release --parallel
-
-The distributable folder is Studio/build/FoRgEStudio-Package. The build workflow generates the FoRgE font and icon assets from tools/build_brand_assets.py before compiling.
-
-## Included
-
-- Custom borderless FoRgE title bar with minimize, maximize/restore and close controls
-- Resizable native window and custom application icon
-- Welcome screen with Open Studio and New Project entry points
-- All seven FoRgE font weights (300, 400, 500, 600, 700, 800, 900)
-- Typography preview and font-weight selector
-- Explorer, viewport, inspector and output panels
-- Initial play/stop state and editor selection
-
-The FoRgE type family is based on Barlow Condensed, distributed under the SIL Open Font License, with FoRgE brand modifications and glyphs.
+The editor saves `scene.forge` beside the applications. This is an early engine foundation, not a finished online platform: networking, accounts, publishing, physics and collaborative editing are not implemented yet.
