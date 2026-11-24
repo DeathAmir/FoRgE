@@ -145,9 +145,12 @@ static void DrawEditor() {
     ImGui::TextDisabled(g_selected == 0 ? "Scene" : g_selected == 1 ? "Workspace" : g_selected == 2 ? "Lighting" : "Camera");
     ImGui::Spacing();
     ImGui::Text("Transform");
-    ImGui::DragFloat3("Position", (float[3]){0.0f, 0.0f, 0.0f}, 0.1f);
-    ImGui::DragFloat3("Rotation", (float[3]){0.0f, 0.0f, 0.0f}, 1.0f);
-    ImGui::DragFloat3("Scale", (float[3]){1.0f, 1.0f, 1.0f}, 0.05f);
+    static float position[3] = {0.0f, 0.0f, 0.0f};
+    static float rotation[3] = {0.0f, 0.0f, 0.0f};
+    static float scale[3] = {1.0f, 1.0f, 1.0f};
+    ImGui::DragFloat3("Position", position, 0.1f);
+    ImGui::DragFloat3("Rotation", rotation, 1.0f);
+    ImGui::DragFloat3("Scale", scale, 0.05f);
     ImGui::End();
 
     Panel("Viewport", ImVec2(left, top), ImVec2(centerW, centerH));
