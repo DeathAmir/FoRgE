@@ -28,7 +28,7 @@ int main(int argc,char** argv){
  while(!WindowShouldClose()){
   if(IsKeyDown(KEY_LEFT_CONTROL)&&IsKeyPressed(KEY_S))status=world.Save("scene.forge")?"Saved scene.forge":"Could not save scene";
   if(IsKeyDown(KEY_LEFT_ALT)&&IsKeyPressed(KEY_F4))break;
-  if(IsKeyDown(MOUSE_BUTTON_MIDDLE)&&MouseInViewport()){Vector2 d=GetMouseDelta();camera.position.x-=d.x*0.035f;camera.position.z-=d.y*0.035f;}
+  if(IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)&&MouseInViewport()){Vector2 d=GetMouseDelta();camera.position.x-=d.x*0.035f;camera.position.z-=d.y*0.035f;}
   float wheel=GetMouseWheelMove();if(wheel!=0){Vector3 o=Vector3Subtract(camera.position,camera.target);o=Vector3Scale(o,1.0f-wheel*0.08f);camera.position=Vector3Add(camera.target,o);}
   if(MouseInViewport()&&GridHit(&hoverX,&hoverZ)){
    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){if(selectedTool==0){world.Add(hoverX,hoverZ,selectedType);status="Block placed in live scene";}else{world.Remove(hoverX,hoverZ);status="Block removed";}}
