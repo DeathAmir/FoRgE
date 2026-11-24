@@ -22,7 +22,7 @@ struct PhysicsScene{
  std::unique_ptr<btPairCachingGhostObject> ghost;
  std::unique_ptr<btCapsuleShape> capsule;
  std::unique_ptr<btKinematicCharacterController> character;
- PhysicsScene(){world.setGravity(btVector3(0,-20,0));auto ground=std::make_unique<btStaticPlaneShape>(btVector3(0,1,0),0);addStatic(std::move(ground),btVector3(0,0,0));}
+ PhysicsScene(){world.setGravity(btVector3(0,-20,0));auto ground=std::make_unique<btStaticPlaneShape>(btVector3(0,1,0),btScalar(0));addStatic(std::move(ground),btVector3(0,0,0));}
  ~PhysicsScene(){if(character)world.removeAction(character.get());if(ghost)world.removeCollisionObject(ghost.get());for(auto& body:bodies)world.removeRigidBody(body.get());}
  void addStatic(std::unique_ptr<btCollisionShape> shape,const btVector3& position){
   btTransform transform;transform.setIdentity();transform.setOrigin(position);
@@ -38,7 +38,7 @@ struct PhysicsScene{
   ghost=std::make_unique<btPairCachingGhostObject>();btTransform t;t.setIdentity();t.setOrigin(btVector3(0,2.23,0));
   ghost->setWorldTransform(t);ghost->setCollisionShape(capsule.get());ghost->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
   world.addCollisionObject(ghost.get(),btBroadphaseProxy::CharacterFilter,btBroadphaseProxy::StaticFilter|btBroadphaseProxy::DefaultFilter);
-  character=std::make_unique<btKinematicCharacterController>(ghost.get(),capsule.get(),btScalar(.32),1);
+  character=std::make_unique<btKinematicCharacterController>(ghost.get(),capsule.get(),btScalar(.32),btVector3(0,1,0));
   character->setGravity(btVector3(0,-20,0));character->setJumpSpeed(7.4f);character->setFallSpeed(35);character->setMaxSlope(btRadians(48));world.addAction(character.get());
  }
  Vector3 position()const{const auto p=ghost->getWorldTransform().getOrigin();return {(float)p.x(),(float)(p.y()-1.23f),(float)p.z()};}
