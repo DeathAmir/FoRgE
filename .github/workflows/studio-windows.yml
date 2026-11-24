@@ -1,33 +1,47 @@
 name: Build FoRgE Creator Studio for Windows
-
 on:
   push:
     branches: [main]
     paths:
       - "Studio/**"
+      - "WebSite/public/fonts/**"
+      - "WebSite/public/icons/forge.ico"
       - ".github/workflows/studio-windows.yml"
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: forge-studio-windows
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Verify FoRgE brand resources
+        shell: pwsh
+        run: |
+          $weights = 300,400,500,600,700,800,900
+          foreach ($weight in $weights) {
+            $font = "WebSite/public/fonts/forge-$weight.ttf"
+            if (!(Test-Path $font)) { throw "Missing brand font: $font" }
+          }
+          if (!(Test-Path "WebSite/public/icons/forge.ico")) { throw "Missing FoRgE icon." }
       - name: Configure CMake
         run: cmake -S Studio -B Studio/build -A x64
       - name: Build FoRgE Studio
         run: cmake --build Studio/build --config Release --parallel
-      - name: Upload Windows x64 executable
+      - name: Verify package
+        shell: pwsh
+        run: |
+          $package = "Studio/build/FoRgEStudio-Package"
+          if (!(Test-Path "$package/FoRgEStudio.exe")) { throw "Missing executable." }
+          if ((Get-ChildItem "$package/Resources/Fonts/*.ttf").Count -ne 7) { throw "Font pack incomplete." }
+          if (!(Test-Path "$package/Resources/Icons/forge.ico")) { throw "Missing icon." }
+      - name: Upload FoRgE Studio package
         uses: actions/upload-artifact@v4
         with:
           name: FoRgE-Creator-Studio-Windows-x64
-          path: Studio/build/Release/FoRgEStudio.exe
+          path: Studio/build/FoRgEStudio-Package/
           if-no-files-found: error
