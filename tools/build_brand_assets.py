@@ -77,11 +77,12 @@ def rename_font(font, weight, style):
 def save_otf(font, path, family, style, weight):
     order = font.getGlyphOrder()
     glyf = font["glyf"]
+    glyph_set = font.getGlyphSet()
     metrics = font["hmtx"].metrics
     char_strings = {}
     for glyph_name in order:
         pen = T2CharStringPen(metrics[glyph_name][0], None)
-        glyf[glyph_name].draw(pen, glyf)
+        glyph_set[glyph_name].draw(pen)
         char_strings[glyph_name] = pen.getCharString(private=None, globalSubrs=None)
     otf = TTFont()
     from fontTools.fontBuilder import FontBuilder
