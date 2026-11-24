@@ -20,7 +20,7 @@ Requires Visual Studio 2022 with the Desktop development with C++ workload and C
     cmake -S Studio -B Studio/build -A x64
     cmake --build Studio/build --config Release --parallel
 
-The distributable folder is Studio/build/FoRgEStudio-Package.
+The distributable folder is Studio/build/FoRgEStudio-Package. The build workflow generates the FoRgE font and icon assets from tools/build_brand_assets.py before compiling.
 
 ## Included
 
