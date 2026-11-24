@@ -1,17 +1,17 @@
 @import "tailwindcss";
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-300.woff2") format("woff2"),url("/fonts/forge-300.ttf") format("truetype");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-300.woff2") format("woff2"),url("/fonts/forge-300.ttf") format("truetype"),url("/fonts/forge-300.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-300.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-400.woff2") format("woff2"),url("/fonts/forge-400.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-400.woff2") format("woff2"),url("/fonts/forge-400.ttf") format("truetype"),url("/fonts/forge-400.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-500.woff2") format("woff2"),url("/fonts/forge-500.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-500.woff2") format("woff2"),url("/fonts/forge-500.ttf") format("truetype"),url("/fonts/forge-500.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-600.woff2") format("woff2"),url("/fonts/forge-600.ttf") format("truetype");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-600.woff2") format("woff2"),url("/fonts/forge-600.ttf") format("truetype"),url("/fonts/forge-600.otf") format("opentype");font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-700.woff2") format("woff2"),url("/fonts/forge-700.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-700.woff2") format("woff2"),url("/fonts/forge-700.ttf") format("truetype"),url("/fonts/forge-700.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-800.woff2") format("woff2"),url("/fonts/forge-800.ttf") format("truetype");font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-800.woff2") format("woff2"),url("/fonts/forge-800.ttf") format("truetype"),url("/fonts/forge-800.otf") format("opentype");font-weight:800;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:"FoRgE";src:url("/fonts/forge-900.woff2") format("woff2"),url("/fonts/forge-900.ttf") format("truetype");font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:"FoRgE";src:url("/fonts/forge-900.woff2") format("woff2"),url("/fonts/forge-900.ttf") format("truetype"),url("/fonts/forge-900.otf") format("opentype");font-weight:900;font-style:normal;font-display:swap}
 @font-face{font-family:"FoRgE Display";src:url("/fonts/forge-900.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap}
 :root{font-family:"FoRgE",system-ui,sans-serif;color:#eee9e3;background:#11100f;font-synthesis:none;text-rendering:optimizeLegibility;font-optical-sizing:auto;font-weight:400;--bg:#11100f;--panel:#191614;--panel-2:#211a16;--copper:#bd5938;--copper-light:#e17a52;--copper-deep:#713923;--muted:#918780;--line:#342923}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;min-width:320px;background:var(--bg)}a{color:inherit;text-decoration:none}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}.site-shell{overflow:hidden}
