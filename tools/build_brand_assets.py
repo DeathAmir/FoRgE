@@ -3,7 +3,6 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 from fontTools.pens.ttGlyphPen import TTGlyphPen
-from fontTools.pens.t2CharStringPen import T2CharStringPen
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw
 
@@ -74,44 +73,6 @@ def rename_font(font, weight, style):
     if "post" in font:
         font["post"].italicAngle = 0
 
-def save_otf(font, path, family, style, weight):
-    order = font.getGlyphOrder()
-    glyf = font["glyf"]
-    glyph_set = font.getGlyphSet()
-    metrics = font["hmtx"].metrics
-    char_strings = {}
-    for glyph_name in order:
-        pen = T2CharStringPen(metrics[glyph_name][0], None)
-        glyph_set[glyph_name].draw(pen)
-        char_strings[glyph_name] = pen.getCharString(private=None, globalSubrs=None)
-    otf = TTFont()
-    from fontTools.fontBuilder import FontBuilder
-    builder = FontBuilder(font["head"].unitsPerEm, isTTF=False)
-    builder.setupGlyphOrder(order)
-    builder.setupCharacterMap(font.getBestCmap())
-    builder.setupHorizontalMetrics(metrics)
-    builder.setupHorizontalHeader(ascent=font["hhea"].ascent, descent=font["hhea"].descent)
-    builder.setupNameTable({
-        "familyName": family,
-        "styleName": style,
-        "uniqueFontIdentifier": f"FoRgE {style} 2.0",
-        "fullName": f"{family} {style}",
-        "psName": f"FoRgE-{style}",
-        "version": "Version 2.000",
-        "copyright": "FoRgE brand glyphs and modifications Copyright 2026 IRAutoX, FoRgE and DeathAmir. Base typeface Barlow Condensed is licensed under the SIL Open Font License.",
-    })
-    builder.setupOS2(sTypoAscender=font["OS/2"].sTypoAscender, sTypoDescender=font["OS/2"].sTypoDescender, usWinAscent=font["OS/2"].usWinAscent, usWinDescent=font["OS/2"].usWinDescent, usWeightClass=weight)
-    builder.setupPost()
-    builder.setupCFF(f"FoRgE-{style}", {
-        "FullName": f"{family} {style}",
-        "FamilyName": family,
-        "Weight": style,
-        "version": "2.000",
-        "Notice": "FoRgE brand glyphs and modifications Copyright 2026 IRAutoX, FoRgE and DeathAmir. Barlow Condensed base typeface under SIL Open Font License.",
-        "Copyright": "Copyright 2026 IRAutoX, FoRgE and DeathAmir.",
-    }, char_strings, {})
-    builder.setupMaxp()
-    builder.save(path)
 
 weights = [
     (300, "Light", "BarlowCondensed-Light.ttf"),
@@ -132,7 +93,6 @@ for weight, style, source_file in weights:
     webfont = TTFont(ttf_path)
     webfont.flavor = "woff2"
     webfont.save(FONTS / f"forge-{weight}.woff2")
-    save_otf(font, FONTS / f"forge-{weight}.otf", "FoRgE", style, weight)
 
 def draw_mark(size):
     scale = size / 64
